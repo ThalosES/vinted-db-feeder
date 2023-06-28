@@ -10,17 +10,18 @@ class Color:
         self.hex = hex
 
 
-def get_data(url, sess):
+def get_data(url: str, sess: requests.Session):
     response = sess.get(url)
     if response.status_code == 200:
         data = response.json()
+        print(data)
         return data
     else:
         return None
 
-def deserialize_json(data):
+def deserialize_json(data) -> list[Color]:
     colors = []
-    for color in data["brands"]:
+    for color in data["colors"]:
         d_color = Color(
             id=color["id"],
             title=color["title"],
@@ -30,19 +31,17 @@ def deserialize_json(data):
 
     return colors
 
-def exec(brand_name_file, outfilename):
+def exec(outfilename):
 
-    brand_names= get_brands_names.exec(brand_name_file)
-
-    outfile= open(outfilename, "r+")
+    outfile= open(outfilename, "w")
     outfile.truncate()
-    outfile.write("ID, TITLE, URL\n")
+    outfile.write("ID, COLOR, HEX\n")
     
     res=""
 
-    base_url = "https://www.vinted.es/api/v2/brands?keyword="
+    URL = "https://www.vinted.es/api/v2/colors"
 
-    url_cookies = 'https://www.vinted.es/auth/token_refresh'
+    URL_COOKIES = 'https://www.vinted.es/auth/token_refresh'
 
     sess = requests.Session()
     
@@ -53,26 +52,21 @@ def exec(brand_name_file, outfilename):
 
     sess.headers.update(HEADERS)
 
-    sess.post(url_cookies)
-    for brand in brand_names:
-    
-        url = base_url+brand
+    sess.post(URL_COOKIES)
 
-        # Obtener los datos
-        data = get_data(url, sess)
+    # Obtener los datos
+    data = get_data(URL, sess)
 
-        if data is not None:
-            # Serializar el JSON
-            deserialized_data = deserialize_json(data)
-            # Imprimir los resultados deserializados
-            if len(deserialized_data.brands) > 0:
-                brand = deserialized_data.brands[0]
-                res+=(f"{brand.id} , {brand.title} , {brand.url}\n")
-                print(brand.title+ " ✔️")
-        else:
-            print("Error al obtener los datos.")
-
-        #time.sleep(0.1)
+    if data is not None:
+        # Serializar el JSON
+        deserialized_data = deserialize_json(data)
+        # Imprimir los resultados deserializados
+        if len(deserialized_data) > 0:
+            for color in deserialized_data:
+                res+=(f"{color.id} , {color.title} , {color.hex}\n")
+                print(color.title+ " ✔️")
+    else:
+        print("Error al obtener los datos.")
 
     outfile.write(res)
     outfile.close()
