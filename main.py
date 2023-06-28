@@ -1,4 +1,4 @@
-from lib import get_brands_ids, get_colors, get_materials, get_sizes, constants
+from lib import get_brands_ids, get_colors, get_materials, get_sizes, get_categories, constants
 
 if(__name__=="__main__"):
     
@@ -11,5 +11,7 @@ if(__name__=="__main__"):
     # Get sizes
     #get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFILE)
 
-    get_colors.exec(constants.COLORS_OUTFILE)
+    # Get Categories
+    #get_colors.exec(constants.COLORS_OUTFILE)
 
+    get_categories.exec(constants.CATEGORIES_INFILE)
