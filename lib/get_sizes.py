@@ -27,8 +27,14 @@ def obtener(path):
     return (numeros , categoria)
 
 def print_result(lista , categoria):
+    regex = re.compile(r'(\d+),(\d+)')
     res=""
     for num, val in lista:
+        match = re.match(regex , val)
+        if match:
+            entero = match.group(1)
+            decimal = match.group(2)
+            val = entero+"."+decimal
         res+=(num + " , \'" + val + "\' , \'"+ categoria+"\'\n")
     return res
 
