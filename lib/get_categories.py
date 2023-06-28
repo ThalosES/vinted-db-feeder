@@ -13,7 +13,11 @@ class Category:
         self.children_ids = children_ids
         self.children = []
 
-    def __str__(self, level=0):
+    def __str__(self):
+        return f"{self.id},'{self.title}','{self.code}',{self.parent_id},'{self.url}','{self.url_en}',{self.item_count}"
+
+    @staticmethod
+    def to_node(self, level):
         indent = "  " * level
         tree_str = f"{indent}- {self.title} ({self.id})\n"
         for child in self.children:
@@ -37,7 +41,7 @@ def deserialize_json(catalogs: dict, tree: dict):
         res[catalog["id"]] = cat
     return res
 
-def draw_tree(category_dict):
+def build_tree(category_dict):
         root_categories = []
         category_map = {}
 
@@ -65,14 +69,41 @@ def draw_tree(category_dict):
 def generate_cat_tree(source):
     a,b = get_data(source)
     r= deserialize_json(a, b)
-    root_categories = draw_tree(r)
+    return build_tree(r)
 
-    res = ""
-    for root_category in root_categories:
-        res+=str(root_category)+"\n"
-    return res
+def tree_to_csv(tree: list[Category]):
+    res="ID, TITLE, CODE, PARENT_ID, URL, URL_EN, ITEM_COUNT\n"
+    tree_str="ID, CHILD\n"
 
-def exec(source, outfile):
+    for root in tree:
+        res+=str(root) + "\n"
+        tree_key = str(root.id)            
+        for child in root.children:
+            res+= str(child)+"\n"
+            tree_str+= f"{tree_key}, {str(child.id)}\n"
+            
+    return tree_str, res
+def debug(source, outfile):
     outfile = open(outfile, "w")
-    outfile.write(generate_cat_tree(source))
+    res = ""
+    for root_category in generate_cat_tree(source):
+        res+=Category.to_node(root_category,0)+"\n"
+    
+    outfile.write(res)
     outfile.close()
+
+def exec(source, outfile1, outfile2):
+    out_cat = open(outfile1, "w")
+    out_tree = open(outfile2, "w")
+
+    a,b = get_data(source)
+    r= deserialize_json(a, b)
+    t = build_tree(r)
+
+    res, tree = tree_to_csv(t)
+
+    
+    out_cat.write(res)
+    out_tree.write(tree)
+    out_cat.close()
+    out_tree.close()

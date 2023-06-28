@@ -6,7 +6,7 @@ if(__name__=="__main__"):
     #get_brands_ids.exec(constants.BRANDS_FOLDER, constants.BRANDS_OUTFILE)
 
     # Get materials
-    # get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER)
+    get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER)
 
     # Get sizes
     get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFILE)
@@ -17,4 +17,4 @@ if(__name__=="__main__"):
     # Get Categories
     get_colors.exec(constants.COLORS_OUTFILE)
 
-    get_categories.exec(constants.CATEGORIES_INFILE, constants.CATEGORIES_OUTFILE)
+    get_categories.exec(constants.CATEGORIES_INFILE, constants.CATEGORIES_OUTFILE, constants.CATEGORIES_TREE_OUTFILE)
