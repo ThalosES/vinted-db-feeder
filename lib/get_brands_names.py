@@ -25,16 +25,17 @@ def extraer_textos(html_file):
 
 def exec(path):
     letters = string.ascii_uppercase
+    textos: list = []
 
     for letter in letters:
         
         if letter == 'Q':
-            print('Quechua\nQuiksilver\nQuiz')
+            textos.append('Quechua\nQuiksilver\nQuiz')
             continue
         if letter == 'X':
-            print('Xbox')
+            textos.append('Xbox')
             continue
         
         archivo_html = path + letter+ '_elements.html' 
-        textos = extraer_textos(archivo_html)
+        textos.extend(extraer_textos(archivo_html))
     return textos

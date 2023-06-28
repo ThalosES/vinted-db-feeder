@@ -79,6 +79,8 @@ def exec(brand_name_file, outfilename):
     outfile.truncate()
     outfile.write("ID, TITLE, URL\n")
     
+    res=""
+
     base_url = "https://www.vinted.es/api/v2/brands?keyword="
 
     url_cookies = 'https://www.vinted.es/auth/token_refresh'
@@ -106,11 +108,12 @@ def exec(brand_name_file, outfilename):
             # Imprimir los resultados deserializados
             if len(deserialized_data.brands) > 0:
                 brand = deserialized_data.brands[0]
-                outfile.write(f"{brand.id} , {brand.title} , {brand.url}\n")
-                print(brand.title)
+                res+=(f"{brand.id} , {brand.title} , {brand.url}\n")
+                print(brand.title+ " ✔️")
         else:
             print("Error al obtener los datos.")
 
-        time.sleep(0.250)
-    
+        #time.sleep(0.1)
+
+    outfile.write(res)
     outfile.close()
