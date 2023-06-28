@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import re
+import re, os
 
 def obtener(path):
     numeros = []
@@ -29,31 +29,13 @@ def obtener(path):
 def print_result(lista , categoria):
     for num, val in lista:
         print(num + " , " + val + " , "+ categoria)
-# Ejemplo de uso
-path = 'mascotas.html'  # Reemplaza con la URL de la página web que deseas analizar
 
-numeros , categoria = obtener(path)
-print_result(numeros , categoria)
+def exec(path):
 
-path = 'hogar.html'  # Reemplaza con la URL de la página web que deseas analizar
-
-numeros , categoria = obtener(path)
-print_result(numeros , categoria)
-
-path = 'hombre.html'  # Reemplaza con la URL de la página web que deseas analizar
-
-numeros , categoria = obtener(path)
-print_result(numeros, categoria)
-
-path = 'mujer.html'  # Reemplaza con la URL de la página web que deseas analizar
-
-numeros , categoria = obtener(path)
-print_result(numeros, categoria)
-
-
-path = 'niños.html'  # Reemplaza con la URL de la página web que deseas analizar
-
-numeros , categoria = obtener(path)
-print_result(numeros , categoria)
-
+    # Iterate over each file in the folder
+    for filename in os.listdir(path):
+        file_path = os.path.join(path, filename)
+        if os.path.isfile(file_path):
+            numeros , categoria = obtener(path)
+            print_result(numeros , categoria)
 

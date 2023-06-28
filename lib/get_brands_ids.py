@@ -1,6 +1,8 @@
 import requests
 import time
 
+from lib import get_brands_names
+
 class Brand:
     def __init__(self, id, title, slug, favourite_count, pretty_favourite_count, item_count, pretty_item_count, is_visible_in_listings, path, requires_authenticity_check, is_luxury, url, is_favourite):
         self.id = id
@@ -69,8 +71,13 @@ def deserialize_json(data):
 
     return deserialized_data
 
-def exec(filename):
-    file = open(filename, "r")
+def exec(brand_name_file, outfilename):
+
+    brand_names= get_brands_names.exec(brand_name_file)
+
+    outfile= open(outfilename, "r+")
+    outfile.truncate()
+    outfile.write("ID, TITLE, URL\n")
     
     base_url = "https://www.vinted.es/api/v2/brands?keyword="
 
@@ -86,7 +93,7 @@ def exec(filename):
     sess.headers.update(HEADERS)
 
     sess.post(url_cookies)
-    for brand in file:
+    for brand in brand_names:
     
         url = base_url+brand
 
@@ -99,8 +106,11 @@ def exec(filename):
             # Imprimir los resultados deserializados
             if len(deserialized_data.brands) > 0:
                 brand = deserialized_data.brands[0]
-                print(f"{brand.id} , {brand.title} , {brand.url}")
+                outfile.write(f"{brand.id} , {brand.title} , {brand.url}\n")
+                print(brand.title)
         else:
             print("Error al obtener los datos.")
 
         time.sleep(0.250)
+    
+    outfile.close()

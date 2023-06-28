@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+import string
 
 def camel_case(texto):
     palabras = texto.split()
@@ -22,3 +23,18 @@ def extraer_textos(html_file):
             textos_etiqueta_a.append(texto_camel_case)
     return textos_etiqueta_a
 
+def exec(path):
+    letters = string.ascii_uppercase
+
+    for letter in letters:
+        
+        if letter == 'Q':
+            print('Quechua\nQuiksilver\nQuiz')
+            continue
+        if letter == 'X':
+            print('Xbox')
+            continue
+        
+        archivo_html = path + letter+ '_elements.html' 
+        textos = extraer_textos(archivo_html)
+    return textos

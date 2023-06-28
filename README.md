@@ -36,7 +36,7 @@ Builds the full decision tree
 2. Run `requirements.txt`
 
    ```bash
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
    ```
 
 3. Run `main.py`

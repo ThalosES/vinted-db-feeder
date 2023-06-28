@@ -23,8 +23,6 @@ def print_texts(textos):
     for num , texto in textos:
         print(str(num) + ', ' +texto)
 
-
-
-archivo_html = 'matiere.html'  # Reemplaza con la ruta de tu archivo HTML
-textos = extraer_textos(archivo_html)
-print_texts(textos)
+def exec(html_file):
+    textos = extraer_textos(html_file)
+    print_texts(textos)
