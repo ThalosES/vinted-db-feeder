@@ -15,7 +15,7 @@ class Category:
 
     def __str__(self, level=0):
         indent = "  " * level
-        tree_str = f"{indent}- {self.title} ({self.item_count})\n"
+        tree_str = f"{indent}- {self.title} ({self.id})\n"
         for child in self.children:
             tree_str += child.__str__(level + 1)
         return tree_str
@@ -69,7 +69,7 @@ def generate_cat_tree(source):
 
     res = ""
     for root_category in root_categories:
-        res+=root_category+"\n"
+        res+=str(root_category)+"\n"
     return res
 
 def exec(source, outfile):
