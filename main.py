@@ -1,4 +1,4 @@
-from lib import get_brands_ids, get_colors, get_materials, get_sizes, constants #, get_categories
+from lib import get_brands_ids, get_colors, get_materials, get_sizes, constants, get_categories
 
 if(__name__=="__main__"):
     
