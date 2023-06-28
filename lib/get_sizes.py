@@ -29,7 +29,7 @@ def obtener(path):
 def print_result(lista , categoria):
     res=""
     for num, val in lista:
-        res+=(num + " , " + val + " , "+ categoria+"\n")
+        res+=(num + " , \'" + val + "\' , \'"+ categoria+"\'\n")
     return res
 
 def exec(path, outfilename):

@@ -63,7 +63,7 @@ def exec(outfilename):
         # Imprimir los resultados deserializados
         if len(deserialized_data) > 0:
             for color in deserialized_data:
-                res+=(f"{color.id} , {color.title} , {color.hex}\n")
+                res+=(f"{color.id} , \'{color.title}\' , \'#{color.hex}\'\n")
                 print(color.title+ " ✔️")
     else:
         print("Error al obtener los datos.")

@@ -108,7 +108,7 @@ def exec(brand_name_file, outfilename):
             # Imprimir los resultados deserializados
             if len(deserialized_data.brands) > 0:
                 brand = deserialized_data.brands[0]
-                res+=(f"{brand.id} , {brand.title} , {brand.url}\n")
+                res+=(f"{brand.id} , \'{brand.title}\' , \'{brand.url}\'\n")
                 print(brand.title+ " ✔️")
         else:
             print("Error al obtener los datos.")

@@ -22,7 +22,7 @@ def extraer_textos(html_file):
 def print_texts(textos):
     res=""
     for num , texto in textos:
-        res+=(str(num) + ', ' +texto+"\n")
+        res+=(str(num) + ', \'' +texto+"\'\n")
     return res
 
 def exec(folder, outfolder):
