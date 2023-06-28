@@ -12,12 +12,12 @@ class Category:
         self.item_count = item_count
         self.children_ids = children_ids
 
-def get_data(filename):
+def get_data(filename: str) -> tuple(dict, dict):
     file = open(filename, "r")
     r =json.load(file)
     return (r["catalogs"], r["catalog_children_tree"])
 
-def deserialize_json(catalogs: dict, tree: dict):
+def deserialize_json(catalogs: dict, tree: dict) -> dict(Category):
     res = {}
     for id in catalogs:
         catalog=catalogs.get(id)
@@ -29,10 +29,11 @@ def deserialize_json(catalogs: dict, tree: dict):
         res[catalog["id"]] = cat
     return res
 
-def exec(filename):
+def exec(filename: str):
     a: dict
     b: dict 
     a,b = get_data(filename)
 
     r= deserialize_json(a, b)
-    #print(r)
+    
+    print(r)
