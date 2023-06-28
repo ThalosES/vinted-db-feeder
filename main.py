@@ -14,4 +14,4 @@ if(__name__=="__main__"):
     # Get Categories
     #get_colors.exec(constants.COLORS_OUTFILE)
 
-    get_categories.exec(constants.CATEGORIES_INFILE)
+    get_categories.exec(constants.CATEGORIES_INFILE, constants.CATEGORIES_OUTFILE)
