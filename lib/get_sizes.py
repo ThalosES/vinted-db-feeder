@@ -27,15 +27,20 @@ def obtener(path):
     return (numeros , categoria)
 
 def print_result(lista , categoria):
+    res=""
     for num, val in lista:
-        print(num + " , " + val + " , "+ categoria)
+        res+=(num + " , " + val + " , "+ categoria+"\n")
+    return res
 
-def exec(path):
+def exec(path, outfilename):
 
-    # Iterate over each file in the folder
+    outfile= open(outfilename, "w")
+    outfile.truncate()
+    outfile.write("ID, SIZE, CATEGORY\n")
+
     for filename in os.listdir(path):
         file_path = os.path.join(path, filename)
         if os.path.isfile(file_path):
-            numeros , categoria = obtener(path)
-            print_result(numeros , categoria)
-
+            numeros , categoria = obtener(file_path)
+            outfile.write(print_result(numeros , categoria))
+    outfile.close()
