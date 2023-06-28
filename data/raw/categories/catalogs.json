@@ -2877,7 +2877,7 @@
         },
         "1196": {
             "id": 1196,
-            "title": "Baby boys' clothing",
+            "title": "Baby boys clothing",
             "code": "BOYS_BABIES",
             "material_group_id": null,
             "material_group_ids": [],
@@ -2908,7 +2908,7 @@
         },
         "1243": {
             "id": 1243,
-            "title": "Baby girls' clothing",
+            "title": "Baby girls clothing",
             "code": "GIRLS_BABIES",
             "material_group_id": null,
             "material_group_ids": [],
@@ -9875,7 +9875,7 @@
         },
         "1883": {
             "id": 1883,
-            "title": "Other baby boys' clothing",
+            "title": "Other baby boys clothing",
             "code": "OTHER_BABY_BOYS",
             "material_group_id": null,
             "material_group_ids": [],
@@ -10492,7 +10492,7 @@
         },
         "1875": {
             "id": 1875,
-            "title": "Other baby girls' clothing",
+            "title": "Other baby girls clothing",
             "code": "GIRLS_BABIES_OTHERS",
             "material_group_id": null,
             "material_group_ids": [],
@@ -14291,7 +14291,7 @@
         },
         "1502": {
             "id": 1502,
-            "title": "Other kids' items",
+            "title": "Other kids items",
             "code": "ALL_OTHER_NEW",
             "material_group_id": null,
             "material_group_ids": [],
@@ -17898,7 +17898,7 @@
         },
         "1254": {
             "id": 1254,
-            "title": "Other girls' clothing",
+            "title": "Other girls clothing",
             "code": "GIRLS_OTHER",
             "material_group_id": null,
             "material_group_ids": [],
@@ -18859,7 +18859,7 @@
         },
         "1205": {
             "id": 1205,
-            "title": "Other boys' clothing",
+            "title": "Other boys clothing",
             "code": "BOYS_OTHER",
             "material_group_id": null,
             "material_group_ids": [],
@@ -23305,7 +23305,7 @@
         },
         "83": {
             "id": 83,
-            "title": "Other men's clothing",
+            "title": "Other mens clothing",
             "code": "MEN_OTHER",
             "material_group_id": null,
             "material_group_ids": [],
