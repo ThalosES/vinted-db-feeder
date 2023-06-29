@@ -1,6 +1,6 @@
 # Vinted data scrapper
 
-Series of data scrappers in Python that stract static information from the vinted source code, being the perfect complement for a Vinted API Wrapper
+A series of data scrappers in Python that extract static information from the Vinted source code, being the perfect complement for a Vinted API wrapper.
 
 ## Install & Run
 
@@ -9,7 +9,7 @@ Series of data scrappers in Python that stract static information from the vinte
 - Pip
 - Python
 
-1. Create a virtual enviromment
+1. Create a virtual environment
 
     ```bash
    python3 -m venv pyvenv/
@@ -37,8 +37,8 @@ Series of data scrappers in Python that stract static information from the vinte
 
 ### Materials
 
-- Avalible languajes: 🇪🇸 🇫🇷 🇺🇸
-  - [More languajes can be added if html file included in `data/raw/materials`]
+- Available languages: 🇪🇸 🇫🇷 🇺🇸
+  - [More languages can be added if html file included in `data/raw/materials`]
 
 ### Categories - Catalogs
 
@@ -46,7 +46,7 @@ Series of data scrappers in Python that stract static information from the vinte
 
 - **Exec mode:** Returns 2 CSVs:
   
-  - `categories.csv`: Table of all the avalible categories and their atributes
+  - `categories.csv`: Table of all the available categories and their attributes
 
   - `categories_children.csv`: Dictionary that models the Category->Children list relationship
 
