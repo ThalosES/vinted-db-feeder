@@ -19,4 +19,4 @@ def debug():
 
 
 if(__name__=="__main__"):
-    get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER, constants.MATERIALS_OUTFILE)
+    get_brands_ids.exec(constants.BRANDS_FOLDER, constants.BRANDS_OUTFILE)
