@@ -72,17 +72,24 @@ def generate_cat_tree(source):
     return build_tree(r)
 
 def tree_to_csv(tree: list[Category]):
-    res="ID, TITLE, CODE, PARENT_ID, URL, URL_EN, ITEM_COUNT\n"
-    tree_str="ID, CHILD\n"
+    res = "ID, TITLE, CODE, PARENT_ID, URL, URL_EN, ITEM_COUNT\n"
+    tree_str = "ID, CHILD\n"
+
+    def build_csv_string(category):
+        nonlocal res, tree_str
+        res += str(category) + "\n"
+        tree_key = str(category.id)
+        for child in category.children:
+            aux = build_csv_string(child)
+            if(aux is not None):
+                res += aux
+            tree_str += f"{tree_key}, {str(child.id)}\n"
 
     for root in tree:
-        res+=str(root) + "\n"
-        tree_key = str(root.id)            
-        for child in root.children:
-            res+= str(child)+"\n"
-            tree_str+= f"{tree_key}, {str(child.id)}\n"
-            
-    return tree_str, res
+        build_csv_string(root)
+
+    return res, tree_str
+
 def debug(source, outfile):
     outfile = open(outfile, "w")
     res = ""
@@ -102,7 +109,6 @@ def exec(source, outfile1, outfile2):
 
     res, tree = tree_to_csv(t)
 
-    
     out_cat.write(res)
     out_tree.write(tree)
     out_cat.close()

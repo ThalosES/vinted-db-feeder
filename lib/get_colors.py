@@ -14,7 +14,6 @@ def get_data(url: str, sess: requests.Session):
     response = sess.get(url)
     if response.status_code == 200:
         data = response.json()
-        print(data)
         return data
     else:
         return None

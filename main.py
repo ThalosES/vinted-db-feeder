@@ -15,6 +15,5 @@ if(__name__=="__main__"):
     get_colors.exec(constants.COLORS_OUTFILE)
     
     # Get Categories
-    get_colors.exec(constants.COLORS_OUTFILE)
 
     get_categories.exec(constants.CATEGORIES_INFILE, constants.CATEGORIES_OUTFILE, constants.CATEGORIES_TREE_OUTFILE)
