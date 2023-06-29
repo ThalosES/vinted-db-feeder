@@ -75,7 +75,7 @@ def exec(brand_name_file, outfilename):
 
     brand_names= get_brands_names.exec(brand_name_file)
 
-    outfile= open(outfilename, "r+")
+    outfile= open(outfilename, "w")
     outfile.truncate()
     outfile.write("ID, TITLE, URL\n")
     

@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import re, os
+import re, os, csv
 
 def extraer_textos(html_file):
     with open(html_file, 'r') as file:
@@ -25,7 +25,56 @@ def print_texts(textos):
         res+=(str(num) + ', \'' +texto+"\'\n")
     return res
 
-def exec(folder, outfolder):
+def merge_csvs(csv_folder, output_file):
+    csv_files = [file for file in os.listdir(csv_folder) if file.endswith('.csv')]
+    
+    # Create a dictionary to store the merged data
+    merged_data = {}
+    h = []
+
+    # Iterate over each CSV file
+    for csv_file in csv_files:
+        csv_path = os.path.join(csv_folder, csv_file)
+        
+        # Get the CSV file name without the extension
+        csv_name: str = os.path.splitext(csv_file)[0]
+        csv_name= csv_name.split(".")[0]
+        h.append(csv_name)
+        
+        # Read the CSV file
+        with open(csv_path, 'r', newline='') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip the header row
+            
+            # Iterate over each row in the CSV file
+            for row in reader:
+                id = row[0]
+                material = row[1]
+                
+                # Add the MATERIAL_CSVNAME entry to the merged data dictionary
+                merged_data.setdefault(id, {})[f'MATERIAL_{csv_name}'] = material
+    
+    # Write the merged data to the output file
+    with open(output_file, 'w', newline='') as file:
+        writer = csv.writer(file)
+        
+        # Write the header row
+        h2 = []
+        for csv_name in h:
+            h2.append(f'MATERIAL_{csv_name}')
+
+        print(h2)
+        header = ['ID'] + h2
+        writer.writerow(header)
+        
+        # Write the data rows
+        for id, material_data in merged_data.items():
+            print(material_data)
+            row = [id] + [material_data.get(f'MATERIAL_{csv_name}', '') for csv_name in h]
+            writer.writerow(row)
+
+
+def exec(folder, outfolder, outfilename):
     
     if(os.path.exists(outfolder)==False):
         os.mkdir(outfolder)
@@ -40,3 +89,8 @@ def exec(folder, outfolder):
             textos = extraer_textos(html_file)
             outfile.write(print_texts(textos))
             outfile.close()
+    
+    f = open(outfilename, "w")
+    f.close()
+
+    merge_csvs(outfolder, outfilename)

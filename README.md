@@ -60,6 +60,14 @@ user    0m0,457s
 sys     0m0,041s
 ```
 
+- Brands validation process:
+
+```bash
+real    14m14,211s
+user    0m19,753s
+sys     0m1,229s
+```
+
 ## Authors
 
 [Álvaro Cabo](https://github.com/alvarocabo)
