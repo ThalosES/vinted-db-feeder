@@ -95,9 +95,12 @@ def exec(brand_name_file, outfilename):
     sess.headers.update(HEADERS)
 
     sess.post(url_cookies)
+    final_brands = []
     for brand in brand_names:
+        
+        brand_url = brand.replace("&" , "%26")
     
-        url = base_url+brand
+        url = base_url+brand_url
 
         # Obtener los datos
         data = get_data(url, sess)
@@ -107,9 +110,18 @@ def exec(brand_name_file, outfilename):
             deserialized_data = deserialize_json(data)
             # Imprimir los resultados deserializados
             if len(deserialized_data.brands) > 0:
-                brand = deserialized_data.brands[0]
-                res+=(f"{brand.id} , \'{brand.title}\' , \'{brand.url}\'\n")
-                print(brand.title+ " ✔️")
+                brands_names : list = [b.title for b in deserialized_data.brands]
+                
+                to_get = list(set(brands_names) - set (final_brands))
+                
+                brands_to_add = filter(lambda b : b.title in to_get, deserialized_data.brands)
+            
+                for b in brands_to_add:
+                    br = b.title.replace('\'' , '\'\'') # Escape ' character in SQL
+                    br = br.replace('\"' , '\'\'')
+                    res+=(f"{b.id} , \'{br}\' , \'{b.url}\'\n")
+                    print(b.title + " ✔️")
+                    final_brands.append(b.title)
         else:
             print("Error al obtener los datos.")
 
