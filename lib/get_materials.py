@@ -63,13 +63,12 @@ def merge_csvs(csv_folder, output_file):
         for csv_name in h:
             h2.append(f'MATERIAL_{csv_name}')
 
-        print(h2)
+
         header = ['ID'] + h2
         writer.writerow(header)
         
         # Write the data rows
         for id, material_data in merged_data.items():
-            print(material_data)
             row = [id] + [material_data.get(f'MATERIAL_{csv_name}', '') for csv_name in h]
             writer.writerow(row)
 
