@@ -2,19 +2,18 @@ import json
 
 class Category:
     def __init__(self, id: int, title, code: str, parent_id:int, url,
-                 url_en, item_count: int, children_ids: list[int]):
+                 url_en, children_ids: list[int]):
         self.id = id
         self.title = title
         self.code = code
         self.parent_id = parent_id
         self.url = url
         self.url_en = url_en
-        self.item_count = item_count
         self.children_ids = children_ids
         self.children = []
 
     def __str__(self):
-        return f"{self.id},'{self.title}','{self.code}',{self.parent_id},'{self.url}','{self.url_en}',{self.item_count}"
+        return f"{self.id},'{self.title}','{self.code}',{self.parent_id},'{self.url}','{self.url_en}'"
 
     @staticmethod
     def to_node(self, level):
@@ -37,7 +36,7 @@ def deserialize_json(catalogs: dict, tree: dict):
         cat = Category(catalog["id"], catalog["title"],
                             catalog["code"], catalog["parent_id"], 
                             catalog["url"], catalog["url_en"], 
-                            catalog["item_count"], children_ids)
+                            children_ids)
         res[catalog["id"]] = cat
     return res
 
@@ -49,7 +48,7 @@ def build_tree(category_dict):
         for category_id, category_object in category_dict.items():
             category = Category(category_object.id, category_object.title, category_object.code,
                                 category_object.parent_id, category_object.url, category_object.url_en,
-                                category_object.item_count, category_object.children_ids)
+                                category_object.children_ids)
             category_map[category_id] = category
 
         # Build the category tree using the children_ids property
@@ -72,7 +71,7 @@ def generate_cat_tree(source):
     return build_tree(r)
 
 def tree_to_csv(tree: list[Category]):
-    res = "ID, TITLE, CODE, PARENT_ID, URL, URL_EN, ITEM_COUNT\n"
+    res = "ID, TITLE, CODE, PARENT_ID, URL, URL_EN\n"
     tree_str = "ID, CHILD\n"
 
     def build_csv_string(category):

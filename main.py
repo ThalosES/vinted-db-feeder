@@ -12,8 +12,6 @@ def debug():
 
     # Get colors
     get_colors.exec(constants.COLORS_OUTFILE)
-
-    # Get countries
     
     # Get Categories
 
@@ -21,5 +19,6 @@ def debug():
 
 
 if(__name__=="__main__"):
-    get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER, constants.MATERIALS_OUTFILE)
+    # get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER, constants.MATERIALS_OUTFILE)
     # NEVER RUN COUNTRIES
+    get_categories.exec(constants.CATEGORIES_INFILE, constants.CATEGORIES_OUTFILE, constants.CATEGORIES_TREE_OUTFILE)
