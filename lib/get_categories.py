@@ -20,7 +20,7 @@ class Category:
         indent = "  " * level
         tree_str = f"{indent}- {self.title} ({self.id})\n"
         for child in self.children:
-            tree_str += child.__str__(level + 1)
+            tree_str += child.__str__()
         return tree_str
 
 def get_data(filename: str):
@@ -93,7 +93,7 @@ def debug(source, outfile):
     outfile = open(outfile, "w")
     res = ""
     for root_category in generate_cat_tree(source):
-        res+=Category.to_node(root_category,0)+"\n"
+        res+=Category.to_node(root_category, 0)+"\n"
     
     outfile.write(res)
     outfile.close()
