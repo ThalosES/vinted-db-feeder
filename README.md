@@ -11,10 +11,10 @@ A series of data scrappers in Python that extract static information from the Vi
 
 1. Create a virtual environment
 
-    ```bash
+   ```bash
    python3 -m venv pyvenv/
    source venv/bin/activate
-    ```
+   ```
 
 2. Run `requirements.txt`
 
@@ -26,14 +26,15 @@ A series of data scrappers in Python that extract static information from the Vi
 
 ## Extracted data categories
 
-| Element   | Fields Returned                                                                       |
-|-----------|---------------------------------------------------------------------------------------|
-| Brands    | Names, Ids                                                                            |
-| Materials | Id, Name                                                                              |
-| Colors    | Id, Color, Hex Code                                                                   |
-| Sizes     | Id, Size, Category                                                                    |
-| Categories| Id, Title, Code, Parent Id, URL, URL EN, Item Count                                    |
-| Categories Children | Category Id, Child Id                                                       |
+| Element             | Fields Returned                                     |
+| ------------------- | --------------------------------------------------- |
+| Brands              | Names, Ids                                          |
+| Materials           | Id, Name                                            |
+| Colors              | Id, Color, Hex Code                                 |
+| Sizes               | Id, Size, Category                                  |
+| Categories          | Id, Title, Code, Parent Id, URL, URL EN, Item Count |
+| Categories Children | Category Id, Child Id                               |
+| Countries           | Id, French_name, local_name, ISO_code, flag_emoji   |
 
 ### Materials
 
@@ -45,7 +46,7 @@ A series of data scrappers in Python that extract static information from the Vi
 - **Debug mode:** Builds the full decision tree
 
 - **Exec mode:** Returns 2 CSVs:
-  
+
   - `categories.csv`: Table of all the available categories and their attributes
 
   - `categories_children.csv`: Dictionary that models the Category->Children list relationship

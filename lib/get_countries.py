@@ -4,11 +4,26 @@ import time
 from lib import get_brands_names
 
 class Country:
-    def __init__(self, id, title, local, iso_code):
+    def __init__(self, id, title, local, iso_code, flag):
         self.id = id
         self.title = title
         self.local= local
         self.iso_code = iso_code
+        self.flag = flag
+
+def get_country_flag_iso(iso_code):
+    iso_code = iso_code.upper()
+    offset = ord('A')
+    regional_indicator_a = ord('🇦')
+    country_code_offset = ord(iso_code[0]) - offset
+    country_code = chr(regional_indicator_a + country_code_offset)
+    
+    if len(iso_code) == 2:
+        regional_indicator_b = ord('🇦')
+        country_code_offset = ord(iso_code[1]) - offset
+        country_code += chr(regional_indicator_b + country_code_offset)
+    
+    return country_code
 
 
 def get_data(url: str, sess: requests.Session):
@@ -26,7 +41,8 @@ def deserialize_json(data) -> list[Country]:
             id=country["id"],
             title=country["title"],
             local=country["title_local"],
-            iso_code=country["iso_code"]
+            iso_code=country["iso_code"],
+            flag=get_country_flag_iso(country["iso_code"])
         )
         countries.append(d_country)
 
@@ -37,7 +53,7 @@ def exec(outfilename):
 
     outfile= open(outfilename, "w")
     outfile.truncate()
-    outfile.write("ID, COUNTRY, LOCAL, ISO\n")
+    outfile.write("ID, COUNTRY, LOCAL, ISO, FLAG\n")
     
     res=""
 
@@ -65,7 +81,7 @@ def exec(outfilename):
         # Imprimir los resultados deserializados
         if len(deserialized_data) > 0:
             for country in deserialized_data:
-                res+=(f"{country.id} , \'{country.title}\' , \'{country.local}\', \'{country.iso_code}\'\n")
+                res+=(f"{country.id} , \'{country.title}\' , \'{country.local}\', \'{country.iso_code}\', \'{country.flag}\'\n")
                 print(country.title+ " ✔️")
     else:
         print("Error al obtener los datos.")

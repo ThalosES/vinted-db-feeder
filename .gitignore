@@ -1,6 +1,5 @@
 data/*
 !data/raw
-!data/countries.csv
 
 pyvenv
 */__pycache__
