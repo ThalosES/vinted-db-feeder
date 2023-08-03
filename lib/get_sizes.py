@@ -1,6 +1,14 @@
 from bs4 import BeautifulSoup
 import re, os
 
+category_id = {
+    "hogar":"1918",
+    "hombre":"5",
+    "mascotas":"2093",
+    "mujer":"1904",
+    "niños":"1193"
+}
+
 def obtener(path):
     numeros = []
 
@@ -10,7 +18,7 @@ def obtener(path):
     # Parsear el contenido HTML con BeautifulSoup
     soup = BeautifulSoup(contenido_html, 'html.parser')
     div = soup.find_all('div', attrs={'class': 'web_ui__Navigation__body'})
-    categoria = div[0].text
+    categoria = category_id[div[0].text.lower()]
     pattern = re.compile(r'size_group_sizes_(\d+)-list-item-(\d+)')
         
     # Encontrar todas las etiquetas label con el atributo for igual a 'size_group_sizes_4_'
@@ -35,7 +43,7 @@ def print_result(lista , categoria):
             entero = match.group(1)
             decimal = match.group(2)
             val = entero+"."+decimal
-        res+=(num + " , \'" + val + "\' , \'"+ categoria+"\'\n")
+        res+=(num + " , \'" + val + "\' , "+ categoria+"\n")
     return res
 
 def exec(path, outfilename):
