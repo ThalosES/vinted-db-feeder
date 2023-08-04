@@ -8,7 +8,8 @@ def debug():
     get_materials.exec(constants.MATERIALS_FOLDER, constants.MATERIALS_OUTFOLDER, constants.MATERIALS_OUTFILE)
 
     # Get sizes
-    get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFILE)
+    get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFOLDER, constants.SIZES_OUTFILE)
+
 
     # Get colors
     get_colors.exec(constants.COLORS_OUTFILE)
@@ -22,7 +23,7 @@ def debug():
 
 
 if(__name__=="__main__"):
-    get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFILE)
+    get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFOLDER, constants.SIZES_OUTFILE)
     
     # debug()
     

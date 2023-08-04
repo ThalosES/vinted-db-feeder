@@ -1,6 +1,6 @@
 from typing import List
 from bs4 import BeautifulSoup, PageElement
-import re, os
+import csv, os
 
 category_to_id = {
     "HOGAR":"1918",
@@ -29,7 +29,7 @@ def obtener(path):
 
     p = file.name.split('/')
     category_name= p[len(p)-1].split('.')[0].upper()
-    category_id = category_to_id[category_name]
+    #category_id = category_to_id[category_name]
 
     pile_elements:List[PageElement] = soup.find_all('li', class_='pile__element')
 
@@ -60,7 +60,7 @@ def obtener(path):
 
     # Agregar las etiquetas encontradas a la lista
 
-    return (sizes_list, category_id)
+    return (sizes_list, category_name)
 
 def print_result(lista, category_name) -> str:
     result=""
@@ -68,15 +68,77 @@ def print_result(lista, category_name) -> str:
         result+=f"{size}, {category_name}\n"
     return result
 
-def exec(path, outfilename):
+def merge_csvs(csv_folder, output_file):
+    csv_files = [file for file in os.listdir(csv_folder) if file.endswith('.csv')]
+    
+    # Create a dictionary to store the merged data
+    merged_data = {}
+    h = []
+    category_id:str
 
-    outfile= open(outfilename, "w")
-    outfile.truncate()
-    outfile.write("ID, SIZE, SIZE_TYPE_ES, CATEGORY_ID\n")
+    # Iterate over each CSV file
+    for csv_file in csv_files:
+        csv_path = os.path.join(csv_folder, csv_file)
+        
+        # Get the CSV file name without the extension
+        csv_name: str = os.path.splitext(csv_file)[0]
+        csv_name= csv_name.split(".")[0]
+        h.append(csv_name)
+        
+        # Read the CSV file
+        with open(csv_path, 'r', newline='') as file:
+            reader = csv.reader(file)
+            next(reader)  # Skip the header row
+            
+            # Iterate over each row in the CSV file
+            for row in reader:
+                id = row[0]
+                title = row[1]
+                size_type = row[2]
+                category_name = row[3].strip()
+                category_id = category_to_id.get(category_name)
+                
+                # Add the TITLE_CSV_NAME entry to the merged data dictionary
+                merged_data.setdefault(id, {})[f'TITLE_{csv_name}'] = title
+                merged_data.setdefault(id,{})[f'SIZE_TYPE_{csv_name}'] = size_type
+                if category_id is not None:
+                    merged_data.setdefault(id,{})["CATEGORY_ID"]=category_id
 
-    for filename in os.listdir(path):
-        file_path = os.path.join(path, filename)
-        if os.path.isfile(file_path):
-            lista, cat = obtener(file_path)
-            outfile.write(print_result(lista, cat))
-    outfile.close()
+        
+    
+    # Write the merged data to the output file
+    with open(output_file, 'w', newline='') as file:
+        writer = csv.writer(file)
+        
+        # Write the header row
+        h2 = []
+        for csv_name in h:
+            h2.append(f'TITLE_{csv_name}')
+            h2.append(f'SIZE_TYPE_{csv_name}')
+        h2.append("CATEGORY_ID")
+
+        header = ['ID'] + h2
+        writer.writerow(header)
+        
+        # Write the data rows
+        for id, size_data in merged_data.items():
+            row = [id] + [size_data.get(f'TITLE_{csv_name}', '') for csv_name in h] + [size_data.get(f'SIZE_TYPE_{csv_name}', '') for csv_name in h] + [size_data.get("CATEGORY_ID", '')]
+            writer.writerow(row)
+
+def exec(path, outfolder, outfilename):
+    if(os.path.exists(outfolder)==False):
+        os.mkdir(outfolder)
+
+    for fol in os.listdir(path):
+        csv_name = fol.upper()+".csv"
+        outfile= open(outfolder+csv_name, "w")
+        outfile.truncate()
+        outfile.write("ID, TITLE, SIZE_TYPE, CATEGORY_NAME\n")
+
+        for html_file in os.listdir(os.path.join(path, fol)):
+            lista, category_id = obtener(os.path.join(path, fol, html_file))
+            outfile.write(print_result(lista, category_id))
+
+        outfile.close()
+    
+    merge_csvs(outfolder, outfilename)
