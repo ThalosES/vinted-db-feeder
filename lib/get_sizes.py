@@ -1,60 +1,82 @@
-from bs4 import BeautifulSoup
+from typing import List
+from bs4 import BeautifulSoup, PageElement
 import re, os
 
-category_id = {
-    "hogar":"1918",
-    "hombre":"5",
-    "mascotas":"2093",
-    "mujer":"1904",
-    "niños":"1193"
+category_to_id = {
+    "HOGAR":"1918",
+    "HOMBRE":"5",
+    "MASCOTAS":"2093",
+    "MUJER":"1904",
+    "NIÑOS":"1193"
 }
 
+class Size:
+    def __init__(self, id, title, size_type):
+        self.id = id
+        self.title = title
+        self.category = size_type
+    
+    def __str__(self):
+        return f"{self.id}, '{self.title}', '{self.category}'"
+
+
 def obtener(path):
-    numeros = []
 
     with open(path, 'r') as file:
         contenido_html = file.read()
-
-    # Parsear el contenido HTML con BeautifulSoup
-    soup = BeautifulSoup(contenido_html, 'html.parser')
-    div = soup.find_all('div', attrs={'class': 'web_ui__Navigation__body'})
-    categoria = category_id[div[0].text.lower()]
-    pattern = re.compile(r'size_group_sizes_(\d+)-list-item-(\d+)')
-        
-    # Encontrar todas las etiquetas label con el atributo for igual a 'size_group_sizes_4_'
-    divs = soup.find_all('div', attrs={'id': pattern})
     
-    for div in divs:
-        match = re.match(pattern, div['id'])
-        if match:
-            valor_h2 = div.find('h2').text
-            numero = match.group(2)
-            numeros.append((numero , valor_h2))
+    soup = BeautifulSoup(contenido_html, 'html.parser')
+
+    p = file.name.split('/')
+    category_name= p[len(p)-1].split('.')[0].upper()
+    category_id = category_to_id[category_name]
+
+    pile_elements:List[PageElement] = soup.find_all('li', class_='pile__element')
+
+    # Initialize a list to store the size objects
+    sizes_list:List[Size] = list()
+
+    # Iterate through the pile__element elements
+    for element in pile_elements:
+        
+        # Get ID
+        pile_element_div = element.find('div', class_='web_ui__Cell__cell web_ui__Cell__default web_ui__Cell__navigating')
+        pile_element_id = pile_element_div.get('id')
+        id_parts = pile_element_id.split('-')
+        id = id_parts[-1]
+
+        # Get size name
+        size_name = element.find('h2', class_='web_ui__Text__text web_ui__Text__title web_ui__Text__left').text.strip()
+
+        # Get category
+        pile = element.parent.fetchPreviousSiblings()[0]
+
+        # Extract the category from the h3 tag
+        size_type = pile.find('h3', class_='web_ui__Text__text web_ui__Text__subtitle web_ui__Text__left').text.strip()
+
+        size_obj = Size(id, size_name, size_type)
+
+        sizes_list.append(size_obj)
+
     # Agregar las etiquetas encontradas a la lista
 
-    return (numeros , categoria)
+    return (sizes_list, category_id)
 
-def print_result(lista , categoria):
-    regex = re.compile(r'(\d+),(\d+)')
-    res=""
-    for num, val in lista:
-        match = re.match(regex , val)
-        if match:
-            entero = match.group(1)
-            decimal = match.group(2)
-            val = entero+"."+decimal
-        res+=(num + " , \'" + val + "\' , "+ categoria+"\n")
-    return res
+def print_result(lista, category_name) -> str:
+    result=""
+    for size in lista:
+        result+=f"{size}, {category_name}\n"
+    return result
 
 def exec(path, outfilename):
 
     outfile= open(outfilename, "w")
     outfile.truncate()
-    outfile.write("ID, SIZE, CATEGORY\n")
+    outfile.write("ID, SIZE, SIZE_TYPE_ES, CATEGORY_ID\n")
 
     for filename in os.listdir(path):
         file_path = os.path.join(path, filename)
         if os.path.isfile(file_path):
-            numeros , categoria = obtener(file_path)
-            outfile.write(print_result(numeros , categoria))
+            lista, cat = obtener(file_path)
+            outfile.write(print_result(lista, cat))
     outfile.close()

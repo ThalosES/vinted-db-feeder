@@ -22,6 +22,7 @@ def debug():
 
 
 if(__name__=="__main__"):
+    get_sizes.exec(constants.SIZES_FOLDER, constants.SIZES_OUTFILE)
     
-    debug()
+    # debug()
     
