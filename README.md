@@ -31,15 +31,15 @@ A series of data scrappers in Python that extract static information from the Vi
 | Brands              | Names, Ids                                          |
 | Materials           | Id, Name                                            |
 | Colors              | Id, Color, Hex Code                                 |
-| Sizes               | Id, Size, Category                                  |
+| Sizes               | Id, Title, Size_Type, Category_id                   |
 | Categories          | Id, Title, Code, Parent Id, URL, URL EN, Item Count |
 | Categories Children | Category Id, Child Id                               |
 | Countries           | Id, French_name, local_name, ISO_code, flag_emoji   |
 
-### Materials
+### Materials and sizes
 
 - Available languages: 🇪🇸 🇫🇷 🇺🇸
-  - [More languages can be added if html file included in `data/raw/materials`]
+  - [More languages can be added if html file included in `data/raw/materials` or `data/raw/sizes`]
 
 ### Categories - Catalogs
 
@@ -56,9 +56,9 @@ A series of data scrappers in Python that extract static information from the Vi
 - Without brands search:
 
 ```bash
-real    0m0,756s
-user    0m0,457s
-sys     0m0,041s
+real    0m1,941s
+user    0m1,225s
+sys     0m0,037s
 ```
 
 - Brands validation process:
